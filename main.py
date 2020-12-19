@@ -112,13 +112,14 @@ def result_summary(df_result: pd.DataFrame, n_digits: int, is_correct=True, is_p
         # print(str_a_bin, str_b_bin, str_c_bin)
         if is_print_result:
             print(str(result_a), "+", str(result_b), "=", str(result_c))
-    print("正しい結果：",
+    print("正しい結果　　：",
           sum(df_result[df_result.energy < 1e-5]["num_occurrences"]),
-          "/", len(df_result))
-    print("パターン　：", len(df_result[df_result.energy < 1e-5]))
+          "/", sum(df_result["num_occurrences"]))
+    print("正しいパターン：", len(df_result[df_result.energy < 1e-5]))
 
 
 if __name__ == "__main__":
-    bqm = generate_random_adder_qubo(5)
+    n_digits = 5
+    bqm = generate_random_adder_qubo(n_digits)
     df_result = solve_dwave_mineng(bqm, num_reads=100)
-    result_summary(df_result, 5)
+    result_summary(df_result, n_digits)
